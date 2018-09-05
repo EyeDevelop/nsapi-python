@@ -28,9 +28,9 @@ def get_pricing_f(s: Session, from_station: str, to_station: str, via_station: s
         "from": from_station,
         "to": to_station
     }
-    if via_station:
+    if via_station is not None:
         options["via"]: via_station
-    if date:
+    if date is not None:
         if _verify_date(date):
             options["dateTime"] = date
 
