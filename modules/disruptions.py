@@ -6,7 +6,7 @@ from requests import Session
 from modules.urls import urlmap, form_url, create_get_request
 
 
-def get_text_if_exists(tag):
+def _get_text_if_exists(tag):
     if tag is not None:
         return tag.text
 
@@ -26,13 +26,13 @@ def get_disruptions_f(s: Session, actual: bool, station: str = None, unplanned: 
     expected = {}
     for disruption_o in b.find("Storingen").find("Gepland").find_all("Storing"):
         disruption = {
-            "id": get_text_if_exists(disruption_o.find("id")),
-            "trajectory": get_text_if_exists(disruption_o.find("Traject")),
-            "period": get_text_if_exists(disruption_o.find("Periode")),
-            "reason": get_text_if_exists(disruption_o.find("Reden")),
-            "advice": get_text_if_exists(disruption_o.find("Advies")),
-            "message": get_text_if_exists(disruption_o.find("Bericht")),
-            "date": get_text_if_exists(disruption_o.find("Datum"))
+            "id": _get_text_if_exists(disruption_o.find("id")),
+            "trajectory": _get_text_if_exists(disruption_o.find("Traject")),
+            "period": _get_text_if_exists(disruption_o.find("Periode")),
+            "reason": _get_text_if_exists(disruption_o.find("Reden")),
+            "advice": _get_text_if_exists(disruption_o.find("Advies")),
+            "message": _get_text_if_exists(disruption_o.find("Bericht")),
+            "date": _get_text_if_exists(disruption_o.find("Datum"))
         }
 
         expected[disruption["id"]] = disruption
@@ -40,13 +40,13 @@ def get_disruptions_f(s: Session, actual: bool, station: str = None, unplanned: 
     unexpected = {}
     for disruption_o in b.find("Storingen").find("Ongepland").find_all("Storing"):
         disruption = {
-            "id": get_text_if_exists(disruption_o.find("id")),
-            "trajectory": get_text_if_exists(disruption_o.find("Traject")),
-            "period": get_text_if_exists(disruption_o.find("Periode")),
-            "reason": get_text_if_exists(disruption_o.find("Reden")),
-            "advice": get_text_if_exists(disruption_o.find("Advies")),
-            "message": get_text_if_exists(disruption_o.find("Bericht")),
-            "date": get_text_if_exists(disruption_o.find("Datum"))
+            "id": _get_text_if_exists(disruption_o.find("id")),
+            "trajectory": _get_text_if_exists(disruption_o.find("Traject")),
+            "period": _get_text_if_exists(disruption_o.find("Periode")),
+            "reason": _get_text_if_exists(disruption_o.find("Reden")),
+            "advice": _get_text_if_exists(disruption_o.find("Advies")),
+            "message": _get_text_if_exists(disruption_o.find("Bericht")),
+            "date": _get_text_if_exists(disruption_o.find("Datum"))
         }
         date, time = disruption["date"].split("T")
         time, timezone = time.split("+")
