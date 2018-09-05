@@ -105,3 +105,6 @@ venv.bak/
 
 # PyCharm
 .idea/
+
+# Testing is done in test.py
+test.py
