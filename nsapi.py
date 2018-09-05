@@ -4,6 +4,7 @@ from requests.auth import HTTPBasicAuth
 from modules.exceptions.login import IncorrectAuthException
 from modules.login import verify_login
 from modules.departures import get_departures_f
+from modules.pricing import get_pricing_f
 from modules.stations import get_stations_f
 
 
@@ -93,3 +94,41 @@ class NSApi:
         self._check_logged_in()
 
         return get_stations_f(self.r)
+
+    def get_price(self, from_station, to_station, via_station=None, date=None):
+        """
+        Gets all the fares for one station to another.
+        The dictionary keys are the names of the carrier.
+
+        A single price object as k = v:
+        carrier_name = {
+            "carrier":          str: The name of the carrier.
+            "price_units":      str: Prices are calculated (on the NS side of things) with these price units.
+            "return": {         dict: Fares for a return journey.
+                "first-class": {            dict: Fares for a first-class return journey.
+                    "full":                 float: Full fare.
+                    "20-off":               float: Fare with 20% off.
+                    "40-off":               float: Fare with 40% off.
+                },
+                "standard-class": {         dict: Fares for a standard-class return journey.
+                },
+            },
+            "one-way": {        dict: Fares for a one-way journey.
+                "first-class": {            dict: Fares for a first-class one-way journey.
+                },
+                "standard-class": {         dict: Fares for a standard-class one-way journey.
+                }
+            }
+        }
+
+        :param from_station: The station code of the departure station.
+        :param to_station: The station code of the arrival station.
+        :param via_station: A station in between these (optional).
+        :param date: The date of departure (optional).
+        :return: A dictionary with pricing information.
+        :rtype: dict
+        """
+
+        self._check_logged_in()
+
+        return get_pricing_f(self.r, from_station, to_station, via_station, date)
