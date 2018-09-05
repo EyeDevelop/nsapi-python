@@ -48,17 +48,17 @@ class NSApi:
             "destination":      str: The train's destination.
             "train_type":       str: The type of train.
             "carrier":          str: The company which handles the train.
+            "route":            str: The stations the train passes on its way.
+            "tip":              str: A tip left by NS, if any.
+            "comments":         list: A list of comments left by NS.
             "departs_from": {
                 "platform":     str: The platform from which it leaves.
                 "changed":      bool: Whether the platform has changed or not.
             },
-            "comments":         list: A list of comments left by NS.
-
-            --- The extra data, may not always be in the dict ---
-            "delay":            str: The delay of the train, if there is a delay.
-            "delay_text":       str: The reason for the delay, if any.
-            "route":            str: The stations the train passes on its way.
-            "tip":              str: A tip left by NS, if any.
+            "delay": {
+                "time":         str: The delay of the train, if there is a delay.
+                "reason":       The reason for the delay, if any.
+            }
         }
 
         :param station: The station of which to get the departures.
