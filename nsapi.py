@@ -43,21 +43,21 @@ class NSApi:
 
         A single train object as k = v:
         train_id = {
-            "journey":          str: The train ID,
-            "departure_time":   datetime: The train's departure time.
-            "destination":      str: The train's destination.
-            "train_type":       str: The type of train.
-            "carrier":          str: The company which handles the train.
-            "route":            str: The stations the train passes on its way.
-            "tip":              str: A tip left by NS, if any.
-            "comments":         list: A list of comments left by NS.
+            "journey":                      str: The train ID,
+            "departure_time":               datetime: The train's departure time.
+            "destination":                  str: The train's destination.
+            "train_type":                   str: The type of train.
+            "carrier":                      str: The company which handles the train.
+            "route":                        str: The stations the train passes on its way.
+            "tip":                          str: A tip left by NS, if any.
+            "comments":                     list: A list of comments left by NS.
             "departs_from": {
-                "platform":     str: The platform from which it leaves.
-                "changed":      bool: Whether the platform has changed or not.
+                "platform":                 str: The platform from which it leaves.
+                "changed":                  bool: Whether the platform has changed or not.
             },
             "delay": {
-                "time":         str: The delay of the train, if there is a delay.
-                "reason":       The reason for the delay, if any.
+                "time":                     str: The delay of the train, if there is a delay.
+                "reason":                   str: The reason for the delay, if any.
             }
         }
 
@@ -77,18 +77,18 @@ class NSApi:
 
         A single station object as k = v:
         station_id = {
-            "code":             str: The station code.
-            "type":             str: The type of station.
+            "code":                         str: The station code.
+            "type":                         str: The type of station.
             "name": {
-                "short":        str: The station name shortened the most.
-                "middle":       str: The station name shortened a little.
-                "full":         str: The station name not shortened.
+                "short":                    str: The station name shortened the most.
+                "middle":                   str: The station name shortened a little.
+                "full":                     str: The station name not shortened.
             },
-            "country":          str: The country code for the station.
-            "uic":              str: The UIC (Union Internationale de Chemins de fer, ID of the International Railway Union).
-            "lat":              str: The latitude of the station.
-            "lon":              str: The longitude of the station.
-            "synonyms":         list: A list of other names for the station.
+            "country":                      str: The country code for the station.
+            "uic":                          str: The UIC (Union Internationale de Chemins de fer, ID of the International Railway Union).
+            "lat":                          str: The latitude of the station.
+            "lon":                          str: The longitude of the station.
+            "synonyms":                     list: A list of other names for the station.
         }
 
         :return: A dictionary with station information.
@@ -106,12 +106,12 @@ class NSApi:
 
         A single disruption as k = v:
         disruption_id = {
-            "id":               str: The disruption id.
-            "trajectory":       str: The stations affected.
-            "period":           str: The from and to date of the disruption.
-            "reason":           str: The reason for the disruption.
-            "advice":           str: NS' advice on how to deal with the disruption.
-            "message":          str: A message from NS regarding the disruption.
+            "id":                           str: The disruption id.
+            "trajectory":                   str: The stations affected.
+            "period":                       str: The from and to date of the disruption.
+            "reason":                       str: The reason for the disruption.
+            "advice":                       str: NS' advice on how to deal with the disruption.
+            "message":                      str: A message from NS regarding the disruption.
         }
 
         :param actual: Only get disruptions that are going on at this time if True.
@@ -131,9 +131,9 @@ class NSApi:
 
         A single price object as k = v:
         carrier_name = {
-            "carrier":          str: The name of the carrier.
-            "price_units":      str: Prices are calculated (on the NS side of things) with these price units.
-            "return": {         dict: Fares for a return journey.
+            "carrier":                      str: The name of the carrier.
+            "price_units":                  str: Prices are calculated (on the NS side of things) with these price units.
+            "return": {                     dict: Fares for a return journey.
                 "first-class": {            dict: Fares for a first-class return journey.
                     "full":                 float: Full fare.
                     "20-off":               float: Fare with 20% off.
@@ -142,7 +142,7 @@ class NSApi:
                 "standard-class": {         dict: Fares for a standard-class return journey.
                 },
             },
-            "one-way": {        dict: Fares for a one-way journey.
+            "one-way": {                    dict: Fares for a one-way journey.
                 "first-class": {            dict: Fares for a first-class one-way journey.
                 },
                 "standard-class": {         dict: Fares for a standard-class one-way journey.
@@ -163,19 +163,50 @@ class NSApi:
 
     def get_travel_recommendations(self, from_station: str, to_station: str, via_station: str = None, previous_advices: int = None, next_advices: int = None, departure_time: datetime.datetime = None, arrival_time: datetime.datetime = None, highspeed_allowed: bool = None, has_year_card: bool = None):
         """
-        Write this shit
+        Get travel recommendations/possibilities for public transport from one station to another.
+        Returns a list of possibilities.
 
-        :param from_station:
-        :param to_station:
-        :param via_station:
-        :param previous_advices:
-        :param next_advices:
-        :param departure_time:
-        :param arrival_time:
-        :param highspeed_allowed:
-        :param has_year_card:
-        :return: A dictionary with travel recommendations.
-        :rtype: dict
+        A single possibility:
+        {
+            "transfers":                    int: The amount of transfers needed.
+            "optimal":                      bool: Whether this is the most optimal possibility.
+            "status":                       str: The status of the possibility (delayed or otherwise).
+            "travel_time": {
+                "planned":                  str: The planned time it takes to complete the journey.
+                "actual":                   str: The actual time it takes to complete the journey (speed-ups or delays accounted for).
+            },
+            "departure_time": {
+                "planned":                  datetime: The planned departure time.
+                "actual":                   datetime: The actual departure time.
+            },
+            "arrival_time": {
+                "planned":                  datetime: The planned arrival time.
+                "actual":                   datetime: The actual arrival time.
+            },
+            "travel_info": {
+                "type":                     str: The type of transit.
+                "carrier":                  str: The company which operates the vehicle.
+                "commute_type":             str: The type of commute.
+                "ride_id":                  str: The ride id.
+                "state":                    str: The status of the train (delayed or otherwise).
+                "details":                  list: A list of details provided by NS.
+                "stops":                    list: The stops that are passed.
+            }
+        }
+
+        [1] Only one of these can be accepted. Departure_time has priority over arrival_time.
+
+        :param from_station: The station where the journey starts.
+        :param to_station: The station where the journey ends.
+        :param via_station: The station that has to be passed.
+        :param previous_advices: Amount of 'old' recommendations to request.
+        :param next_advices: Amount of future recommendations to request.
+        :param departure_time: [1] The time when the train leaves from the departure station.
+        :param arrival_time: [1] The time when arrived at the end station.
+        :param highspeed_allowed: Whether high-speed trains are allowed in the recommendation.
+        :param has_year_card: Whether the user has a year card.
+        :return: A list with travel recommendations.
+        :rtype: list
         """
 
         self._check_logged_in()

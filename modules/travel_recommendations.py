@@ -56,8 +56,8 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
     possibilities = []
     for possibility_o in b.find_all("ReisMogelijkheid"):
         possibility = {
-            "transfers": possibility_o.find("AantalOverstappen").text,
-            "optimal": possibility_o.find("Optimaal").text,
+            "transfers": int(possibility_o.find("AantalOverstappen").text),
+            "optimal": possibility_o.find("Optimaal").text == "true",
             "status": possibility_o.find("Status").text,
             "travel_time": {
                 "planned": possibility_o.find("GeplandeReisTijd").text,
