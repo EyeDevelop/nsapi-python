@@ -1,7 +1,7 @@
 import datetime
 
-from requests import Session
 from bs4 import BeautifulSoup
+from requests import Session
 
 from modules.urls import create_get_request, form_url, urlmap
 
