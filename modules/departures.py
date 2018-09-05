@@ -24,6 +24,22 @@ def get_departures_f(s: Session, station: str):
                 "changed": train_o.find("VertrekSpoor")["wijziging"] == "true"
             }
         }
+
+        optional_attrs = {
+            "VertrekVertraging": "delay",
+            "VertrekVertragingTekst": "delay_text",
+            "RouteTekst": "route",
+            "ReisTip": "tip"
+        }
+        for key, value in optional_attrs.items():
+            attr = train_o.find(key)
+            if attr:
+                train[value] = attr.text
+
+        train["comments"] = []
+        for comment_o in train_o.find_all("Comment"):
+            train["comments"].append(comment_o.text)
+
         date, time = train["departure_time"].split("T")
         time, timezone = time.split("+")
         tzd, tzh, tzm, tzs = map(int, list(timezone))
