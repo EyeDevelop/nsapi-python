@@ -10,9 +10,9 @@ def get_disruptions_f(s: Session, actual: bool, station: str = None, unplanned: 
     options = {
         "actual": str(actual).lower(),
     }
-    if station:
+    if station is not None:
         options["station"] = station
-    if unplanned:
+    if unplanned is not None:
         options["unplanned"] = str(unplanned).lower()
 
     r = s.get(form_url(urlmap["disruptions"], create_get_request(options)))
