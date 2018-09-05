@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -5,6 +7,7 @@ from modules.exceptions.login import IncorrectAuthException
 from modules.login import verify_login
 from modules.departures import get_departures_f
 from modules.stations import get_stations_f
+from modules.travel_recommendations import get_travel_recommendations_f
 
 
 class NSApi:
@@ -93,3 +96,24 @@ class NSApi:
         self._check_logged_in()
 
         return get_stations_f(self.r)
+
+    def get_travel_recommendations(self, from_station: str, to_station: str, via_station: str = None, previous_advices: int = None, next_advices: int = None, departure_time: datetime.datetime = None, arrival_time: datetime.datetime = None, highspeed_allowed: bool = None, has_year_card: bool = None):
+        """
+        Write this shit
+
+        :param from_station:
+        :param to_station:
+        :param via_station:
+        :param previous_advices:
+        :param next_advices:
+        :param departure_time:
+        :param arrival_time:
+        :param highspeed_allowed:
+        :param has_year_card:
+        :return: A dictionary with travel recommendations.
+        :rtype: dict
+        """
+
+        self._check_logged_in()
+
+        return get_travel_recommendations_f(self.r, from_station, to_station, via_station, previous_advices, next_advices, departure_time, arrival_time, highspeed_allowed, has_year_card)
