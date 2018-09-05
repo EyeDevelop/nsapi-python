@@ -39,11 +39,11 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
     elif arrival_time is not None:
         options["Departure"] = "false"
         options["dateTime"] = arrival_time.strftime("{}-{}-{}T{}:{}".format(
-            departure_time.year,
-            departure_time.month,
-            departure_time.day,
-            departure_time.hour,
-            departure_time.minute
+            arrival_time.year,
+            arrival_time.month,
+            arrival_time.day,
+            arrival_time.hour,
+            arrival_time.minute
         ))
     if highspeed_allowed is not None:
         options["hslAllowed"] = str(highspeed_allowed).lower()
