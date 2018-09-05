@@ -104,7 +104,7 @@ class NSApi:
         Gets all the disruptions as a dictionary.
         The dictionary keys are the disruption ids as strings.
 
-        A single expected disruption as k = v:
+        A single disruption as k = v:
         disruption_id = {
             "id":               str: The disruption id.
             "trajectory":       str: The stations affected.
@@ -113,8 +113,6 @@ class NSApi:
             "advice":           str: NS' advice on how to deal with the disruption.
             "message":          str: A message from NS regarding the disruption.
         }
-
-        The unexpected disruptions miss the 'period' and 'advice' sections, they do have a 'date' key, which is when NS knew of the disruption.
 
         :param actual: Only get disruptions that are going on at this time if True.
         :param station: Get disruptions that affect this station.
