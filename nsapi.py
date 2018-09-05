@@ -1,6 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
+from modules.disruptions import get_disruptions_f
 from modules.exceptions.login import IncorrectAuthException
 from modules.login import verify_login
 from modules.departures import get_departures_f
@@ -93,3 +94,31 @@ class NSApi:
         self._check_logged_in()
 
         return get_stations_f(self.r)
+
+    def get_disruptions(self, actual: bool, station: str = None, unplanned: bool = None):
+        """
+        Gets all the disruptions as a dictionary.
+        The dictionary keys are the disruption ids as strings.
+
+        A single expected disruption as k = v:
+        disruption_id = {
+            "id":               str: The disruption id.
+            "trajectory":       str: The stations affected.
+            "period":           str: The from and to date of the disruption.
+            "reason":           str: The reason for the disruption.
+            "advice":           str: NS' advice on how to deal with the disruption.
+            "message":          str: A message from NS regarding the disruption.
+        }
+
+        The unexpected disruptions miss the 'period' and 'advice' sections, they do have a 'date' key, which is when NS knew of the disruption.
+
+        :param actual: Only get disruptions that are going on at this time if True.
+        :param station: Get disruptions that affect this station.
+        :param unplanned: Whether to show unplanned disruptions too.
+        :return: A dictionary with disruption information.
+        :rtype: dict
+        """
+
+        self._check_logged_in()
+
+        return get_disruptions_f(self.r, actual, station, unplanned)
