@@ -35,7 +35,7 @@ def get_pricing_f(s: Session, from_station: str, to_station: str, via_station: s
             options["dateTime"] = date
 
     r = s.get(form_url(urlmap["pricing"], create_get_request(options)))
-    b = BeautifulSoup(r.text, 'xml')
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), 'xml')
 
     prices = {}
     for price_o in b.find_all("VervoerderKeuze"):

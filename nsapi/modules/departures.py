@@ -13,7 +13,7 @@ def _get_text_if_exists(tag):
 
 def get_departures_f(s: Session, station: str):
     r = s.get(form_url(urlmap["departures"], create_get_request({"station": station})))
-    b = BeautifulSoup(r.text, "xml")
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), "xml")
 
     trains = {}
 
