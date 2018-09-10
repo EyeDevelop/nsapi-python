@@ -1,5 +1,5 @@
+import setuptools
 from setuptools import setup
-
 
 setup(
     name="nsapi",
@@ -8,7 +8,7 @@ setup(
     url="https://github.com/EyeDevelop/nsapi-python",
     author="EyeDevelop (Hans Goor)",
     license="GPLv3",
-    packages=["nsapi"],
+    packages=setuptools.find_packages(),
     zip_safe=False,
     install_requires=[
         "requests",
