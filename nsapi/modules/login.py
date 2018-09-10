@@ -1,6 +1,6 @@
 from requests import Session
 
-from modules.urls import urlmap
+from nsapi.modules.urls import urlmap
 
 
 def verify_login(s: Session):

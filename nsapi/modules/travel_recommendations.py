@@ -3,7 +3,7 @@ import datetime
 from bs4 import BeautifulSoup
 from requests import Session
 
-from modules.urls import urlmap, create_get_request, form_url
+from nsapi.modules.urls import urlmap, create_get_request, form_url
 
 
 def _convert_to_datetime(iso8601_datestr: str):

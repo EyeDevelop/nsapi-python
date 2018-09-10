@@ -3,13 +3,13 @@ import datetime
 import requests
 from requests.auth import HTTPBasicAuth
 
-from modules.departures import get_departures_f
-from modules.disruptions import get_disruptions_f
-from modules.exceptions.login import IncorrectAuthException
-from modules.login import verify_login
-from modules.pricing import get_pricing_f
-from modules.stations import get_stations_f
-from modules.travel_recommendations import get_travel_recommendations_f
+from nsapi.modules.departures import get_departures_f
+from nsapi.modules.disruptions import get_disruptions_f
+from nsapi.modules.exceptions import IncorrectAuthException
+from nsapi.modules.login import verify_login
+from nsapi.modules import get_pricing_f
+from nsapi.modules.stations import get_stations_f
+from nsapi.modules import get_travel_recommendations_f
 
 
 class NSApi:

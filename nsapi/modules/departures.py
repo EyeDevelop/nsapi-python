@@ -3,7 +3,7 @@ import datetime
 from bs4 import BeautifulSoup
 from requests import Session
 
-from modules.urls import create_get_request, form_url, urlmap
+from nsapi.modules.urls import create_get_request, form_url, urlmap
 
 
 def _get_text_if_exists(tag):
