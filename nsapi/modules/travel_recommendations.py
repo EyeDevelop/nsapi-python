@@ -88,7 +88,7 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
                 "ride_id": possibility_o.find("ReisDeel").find("RitNummer").text,
                 "state": possibility_o.find("ReisDeel").find("Status").text,
                 "details": [],
-                "stops": []
+                "parts": []
             }
         }
 
@@ -96,19 +96,24 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
         for detail_o in possibility_o.find_all("Reisdetail"):
             details.append(detail_o.text)
 
-        stops = []
-        for stop_o in possibility_o.find_all("ReisStop"):
-            stop = {
-                "name": stop_o.find("Naam").text,
-                "arrival_time": _convert_to_datetime(stop_o.find("Tijd").text),
-                "track": _get_text_if_exists(stop_o.find("Spoor")),
-                "track_changed": _get_attr_if_exists(stop_o.find("Spoor"), "wijziging")
-            }
+        parts = []
+        for part_o in possibility_o.find_all("ReisDeel"):
+            stops = []
 
-            stops.append(stop)
+            for stop_o in part_o.find_all("ReisStop"):
+                stop = {
+                    "name": stop_o.find("Naam").text,
+                    "arrival_time": _convert_to_datetime(stop_o.find("Tijd").text),
+                    "track": _get_text_if_exists(stop_o.find("Spoor")),
+                    "track_changed": _get_attr_if_exists(stop_o.find("Spoor"), "wijziging")
+                }
+
+                stops.append(stop)
+
+            parts.append(stops)
 
         possibility["travel_info"]["details"] = details
-        possibility["travel_info"]["stops"] = stops
+        possibility["travel_info"]["parts"] = parts
 
         possibilities.append(possibility)
 
