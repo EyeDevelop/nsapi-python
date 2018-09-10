@@ -102,7 +102,7 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
                 "name": stop_o.find("Naam").text,
                 "arrival_time": _convert_to_datetime(stop_o.find("Tijd").text),
                 "track": _get_text_if_exists(stop_o.find("Spoor")),
-                "track_changed": _get_attr_if_exists("Spoor", "wijziging")
+                "track_changed": _get_attr_if_exists(stop_o.find("Spoor"), "wijziging")
             }
 
             stops.append(stop)
