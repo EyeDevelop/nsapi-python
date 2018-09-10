@@ -12,6 +12,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "requests",
-        "bs4"
+        "bs4",
+        "lxml"
     ]
 )
