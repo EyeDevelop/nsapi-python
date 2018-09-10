@@ -16,6 +16,16 @@ def _convert_to_datetime(iso8601_datestr: str):
     return datetime.datetime(dy, dm, dd, th, tm, ts, tzinfo=datetime.timezone(datetime.timedelta(days=tzd, hours=tzh, minutes=tzm, seconds=tzs)))
 
 
+def _get_text_if_exists(tag):
+    if tag is not None:
+        return tag.text
+
+
+def _get_attr_if_exists(tag, attr):
+    if tag is not None:
+        return tag[attr]
+
+
 def get_travel_recommendations_f(s: Session, from_station: str, to_station: str, via_station: str = None, previous_advices: int = None, next_advices: int = None, departure_time: datetime.datetime = None, arrival_time: datetime.datetime = None, highspeed_allowed: bool = None, has_year_card: bool = None):
     options = {
         "fromStation": from_station,
@@ -90,7 +100,9 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
         for stop_o in possibility_o.find_all("ReisStop"):
             stop = {
                 "name": stop_o.find("Naam").text,
-                "arrival_time": _convert_to_datetime(stop_o.find("Tijd").text)
+                "arrival_time": _convert_to_datetime(stop_o.find("Tijd").text),
+                "track": _get_text_if_exists(stop_o.find("Spoor")),
+                "track_changed": _get_attr_if_exists("Spoor", "wijziging")
             }
 
             stops.append(stop)
