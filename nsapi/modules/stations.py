@@ -6,7 +6,7 @@ from nsapi.modules.urls import urlmap
 
 def get_stations_f(s: Session):
     r = s.get(urlmap["stations"])
-    b = BeautifulSoup(r.text, 'xml')
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), 'xml')
 
     stations = {}
     for station_o in b.find("Stations").find_all("Station"):

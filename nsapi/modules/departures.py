@@ -13,7 +13,7 @@ def _get_text_if_exists(tag):
 
 def get_departures_f(s: Session, station: str):
     r = s.get(form_url(urlmap["departures"], create_get_request({"station": station})))
-    b = BeautifulSoup(r.text, "xml")
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), "xml")
 
     trains = {}
 
@@ -32,7 +32,7 @@ def get_departures_f(s: Session, station: str):
             },
             "delay": {
                 "time": _get_text_if_exists(train_o.find("VertrekVertraging")),
-                "reason": _get_text_if_exists(train_o.find("VertrekVertragingsTekst"))
+                "reason": _get_text_if_exists(train_o.find("VertrekVertragingTekst"))
             }
         }
 

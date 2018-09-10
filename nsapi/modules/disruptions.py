@@ -21,7 +21,7 @@ def get_disruptions_f(s: Session, actual: bool, station: str = None, unplanned: 
         options["unplanned"] = str(unplanned).lower()
 
     r = s.get(form_url(urlmap["disruptions"], create_get_request(options)))
-    b = BeautifulSoup(r.text, 'xml')
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), 'xml')
 
     expected = {}
     for disruption_o in b.find("Storingen").find("Gepland").find_all("Storing"):

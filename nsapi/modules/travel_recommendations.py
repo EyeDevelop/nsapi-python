@@ -61,7 +61,7 @@ def get_travel_recommendations_f(s: Session, from_station: str, to_station: str,
         options["yearCard"] = str(has_year_card).lower()
 
     r = s.get(form_url(urlmap["travel-recommendations"], create_get_request(options)))
-    b = BeautifulSoup(r.text, 'xml')
+    b = BeautifulSoup(r.content.decode("utf-8", "ignore"), 'xml')
 
     possibilities = []
     for possibility_o in b.find_all("ReisMogelijkheid"):
