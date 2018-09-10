@@ -25,5 +25,8 @@ __base_url = "https://webservices.ns.nl/ns-api"
 urlmap = {
     "generic": __base_url,
     "departures": f"{__base_url}-avt",
-    "stations": f"{__base_url}-stations-v2"
+    "stations": f"{__base_url}-stations-v2",
+    "disruptions": f"{__base_url}-storingen",
+    "pricing": f"{__base_url}-prijzen-v3",
+    "travel-recommendations": f"{__base_url}-treinplanner",
 }

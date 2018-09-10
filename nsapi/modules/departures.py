@@ -1,9 +1,14 @@
 import datetime
 
-from requests import Session
 from bs4 import BeautifulSoup
+from requests import Session
 
-from modules.urls import create_get_request, form_url, urlmap
+from nsapi.modules.urls import create_get_request, form_url, urlmap
+
+
+def _get_text_if_exists(tag):
+    if tag is not None:
+        return tag.text
 
 
 def get_departures_f(s: Session, station: str):
@@ -19,22 +24,17 @@ def get_departures_f(s: Session, station: str):
             "destination": train_o.find("EindBestemming").text,
             "train_type": train_o.find("TreinSoort").text,
             "carrier": train_o.find("Vervoerder").text,
+            "route": _get_text_if_exists(train_o.find("RouteTekst")),
+            "tip": _get_text_if_exists(train_o.find("ReisTip")),
             "departs_from": {
                 "platform": train_o.find("VertrekSpoor").text,
                 "changed": train_o.find("VertrekSpoor")["wijziging"] == "true"
+            },
+            "delay": {
+                "time": _get_text_if_exists(train_o.find("VertrekVertraging")),
+                "reason": _get_text_if_exists(train_o.find("VertrekVertragingsTekst"))
             }
         }
-
-        optional_attrs = {
-            "VertrekVertraging": "delay",
-            "VertrekVertragingTekst": "delay_text",
-            "RouteTekst": "route",
-            "ReisTip": "tip"
-        }
-        for key, value in optional_attrs.items():
-            attr = train_o.find(key)
-            if attr:
-                train[value] = attr.text
 
         train["comments"] = []
         for comment_o in train_o.find_all("Comment"):

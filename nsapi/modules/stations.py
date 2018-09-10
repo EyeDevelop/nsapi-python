@@ -1,7 +1,7 @@
-from requests import Session
 from bs4 import BeautifulSoup
+from requests import Session
 
-from modules.urls import urlmap
+from nsapi.modules.urls import urlmap
 
 
 def get_stations_f(s: Session):
