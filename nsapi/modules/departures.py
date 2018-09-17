@@ -37,7 +37,7 @@ def get_departures_f(s: Session, station: str):
         }
 
         train["comments"] = []
-        for comment_o in train_o.find_all("Comment"):
+        for comment_o in train_o.find_all("Opmerking"):
             train["comments"].append(comment_o.text)
 
         date, time = train["departure_time"].split("T")
