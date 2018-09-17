@@ -1,9 +1,17 @@
 import setuptools
+import subprocess
+
 from setuptools import setup
+
+
+def get_version():
+    s = subprocess.check_output(["git", "describe", "--always"]).decode("utf-8").strip()
+    return s
+
 
 setup(
     name="nsapi",
-    version="9f9c7c0de",
+    version=get_version(),
     description="A Python wrapper to the NS API.",
     url="https://github.com/EyeDevelop/nsapi-python",
     author="EyeDevelop (Hans Goor)",
